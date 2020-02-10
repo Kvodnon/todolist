@@ -6,7 +6,7 @@
     toDoCompleted = document.querySelector('.todo-completed'),
     headerInput = document.querySelector('.header-input'),
     buttonsRemove = document.querySelectorAll('.todo-remove'),
-    buttonsComplete = document.querySelectorAll('.todo-complete');
+    buttonsComplete = toDoStart.querySelectorAll('.todo-complete');
 
   let toDo = {
     itemCopy: {},
