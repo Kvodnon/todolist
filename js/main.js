@@ -10,6 +10,7 @@
 
   let toDo = {
     itemCopy: {},
+    completeLink: {},
     addItem: function(event) {
       event.preventDefault();
 
@@ -17,6 +18,8 @@
       this.setButtonsListener(clone);
 
       toDoStart.appendChild(clone);
+
+      headerInput.value = '';
     },
     cloneItem: function(value) {
       let clone = this.itemCopy.cloneNode(true);
@@ -50,27 +53,29 @@
     completeItem: function(event) {
       event.preventDefault();
 
-      event.target.removeEventListener('click', this.completeItem);
+      event.target.removeEventListener('click', this.completeLink);
 
       toDoCompleted.appendChild(event.target.parentNode.parentNode);
     },
-    setListener: function(parent, listener) {
+    setListener: function(parent, listener) {      
       parent.forEach(function(button) {
-        button.addEventListener('click', listener.bind(this));
-      }, this);
+        button.addEventListener('click', listener);
+      });
     },
     setButtonsListener: function(parent) {
-      let buttons = parent.getElementsByTagName('button');
+      const buttons = parent.getElementsByTagName('button');
 
       buttons[0].addEventListener('click', this.removeItem);
+      buttons[1].addEventListener('click', this.completeLink);
     }
   };
 
   let link = toDo;
+  link.completeLink = link.completeItem.bind(link);
 
   link.createEmptyItem();
   link.setListener(buttonsRemove, link.removeItem);
-  link.setListener(buttonsComplete, link.completeItem);
+  link.setListener(buttonsComplete, link.completeLink);
 
   headerButton.addEventListener('click', link.addItem.bind(link));
 })();
