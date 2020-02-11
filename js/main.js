@@ -71,7 +71,6 @@
       event.preventDefault();
 
       let item = event.target.parentNode.parentNode;
-      let todoComplete = item.parentNode;
 
       event.target.removeEventListener('click', this.completeLink);
 
