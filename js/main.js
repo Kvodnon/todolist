@@ -71,15 +71,22 @@
       event.preventDefault();
 
       let item = event.target.parentNode.parentNode;
+      let toDo = item.parentNode;
+      let children = Array.from(toDo.children);
 
-      event.target.removeEventListener('click', this.completeLink);
-
-      let children = Array.from(toDoStart.children);
-      this.storageStart.splice(children.indexOf(item), 1);
-
-      toDoCompleted.appendChild(item);
-
-      this.storageComplete.push(item.textContent);
+      if (!toDo.classList.contains('todo-completed')) {
+        this.storageStart.splice(children.indexOf(item), 1);
+  
+        toDoCompleted.appendChild(item);
+  
+        this.storageComplete.push(item.textContent);
+      } else {
+        this.storageComplete.splice(children.indexOf(item), 1);
+  
+        toDoStart.appendChild(item);
+  
+        this.storageStart.push(item.textContent);
+      }
 
       this.updateStorage('complete', this.storageComplete);
       this.updateStorage('start', this.storageStart);
@@ -133,7 +140,7 @@
   link.completeLink = link.completeItem.bind(link);
 
   let buttonsRemove = document.querySelectorAll('.todo-remove'),
-    buttonsComplete = toDoStart.querySelectorAll('.todo-complete');
+    buttonsComplete = document.querySelectorAll('.todo-complete');
 
   link.setListener(buttonsRemove, link.removeItem.bind(link));
   link.setListener(buttonsComplete, link.completeLink);
